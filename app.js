@@ -4,6 +4,7 @@ const { MongoClient } = require("mongodb");
 
 const User = require('./model/user');
 const Account = require('./model/account');
+const { application } = require('express');
 
 require("dotenv").config();
 
@@ -31,6 +32,11 @@ mongoose.connect(
 );
 
 // protocol
+
+app.get("/", async (req, res) => {
+    res.send("This is backend server for our hackathon project\n" + 
+    "for get users data: https://hackathon-server-project.herokuapp.com/users\n");
+});
 
 app.get("/users", async (req, res) => {
     try {
