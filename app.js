@@ -67,16 +67,26 @@ app.post("/create_user", async (req, res) => {
 });
 
 app.post("/register", async (req, res) => {
-    try {
-        const new_account = new Account(req.body);
-        await new_account.save();
-        res.send({
-            status: 200,
-            message: "Register successfully",
-            new_account,
+    if (req.body.username.length <= 10 && req.body.password.length <= 10) {
+        res.status(406).send({ 
+            status: 406,
+            message: "Register failed, username and password must be at least 10 characters."
         });
-    } catch (err) {
-        res.send({ message: `${err}` });
+    } else {
+        try {
+            const new_account = new Account(req.body);
+            await new_account.save();
+            res.status(200).send({
+                status: 200,
+                message: "Register successfully",
+                new_account,
+            });
+        } catch (err) {
+            res.status(500).send({ 
+                status: 500,
+                message: `${err}`
+            });
+        }
     }
 });
 
@@ -87,8 +97,9 @@ app.post("/login", async (req, res) => {
     Account.findOne({ username: username, password: password }, function (err, account) {
         if (err) {
             console.log(err);
-            return res.status(500).send({
-                message: err,
+            return res.status(500).send({ 
+                status: 500,
+                message: `${err}`
             });
         }
 
