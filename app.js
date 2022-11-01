@@ -67,40 +67,16 @@ app.post("/create_user", async (req, res) => {
 });
 
 app.post("/register", async (req, res) => {
-    if (req.body.username.length <= 10 && req.body.password.length <= 10) {
-        res.send({ 
-            message: "Register failed, username and password must be at least 10 characters"
+    try {
+        const new_account = new Account(req.body);
+        await new_account.save();
+        res.send({
+            status: 200,
+            message: "Register successfully",
+            new_account,
         });
-    } else {
-        Account.findOne({ username: username, password: password }, function (err, account) {
-            if (err) {
-                console.log(err);
-                return res.status(500).send({
-                    message: err,
-                });
-            }
-
-            if (account) {
-                return res.send({
-                    message: "This username is already registered",
-                });
-            } else if (!account) {
-                async function register() {
-                    try {
-                        const new_account = new Account(req.body);
-                        await new_account.save();
-                        res.send({
-                            status: 200,
-                            message: "Register successfully",
-                            new_account,
-                        });
-                    } catch (err) {
-                        res.send({ message: `${err}` });
-                    }
-                }
-                register();
-            }
-        });
+    } catch (err) {
+        res.send({ message: `${err}` });
     }
 });
 
