@@ -60,10 +60,10 @@ app.post("/create_user", async (req, res) => {
 });
 
 app.post("/register", async (req, res) => {
-    if (req.body.username.length <= 10 || req.body.password.length <= 10) {
+    if (req.body.username.length < 8 || req.body.password.length < 8) {
         res.status(406).send({ 
             status: 406,
-            message: "Register failed, username and password must be at least 10 characters."
+            message: "Register failed, username and password must be at least 8 characters."
         });
     } else {
         var username = req.body.username;
@@ -78,7 +78,7 @@ app.post("/register", async (req, res) => {
             if (account) {
                 return res.status(406).send({
                     status: 406,
-                    message: "This  account is already created.",
+                    message: "Register failed, this  account is already created.",
                 });
             }
     
