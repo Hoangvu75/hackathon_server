@@ -15,13 +15,6 @@ app.listen(process.env.PORT || 3000, () => {
     console.log("Listening to server")
 });
 
-
-// const customMiddleware = (req, res, next) => {
-//     console.log('custom middleware');
-//     next();
-// };
-// app.use(customMiddleware);
-
 mongoose.connect(
     process.env.DB_CONNECTION_STRING, 
     { useUnifiedTopology: true, useNewUrlParser: true },
@@ -67,26 +60,42 @@ app.post("/create_user", async (req, res) => {
 });
 
 app.post("/register", async (req, res) => {
-    if (req.body.username.length <= 10 && req.body.password.length <= 10) {
+    if (req.body.username.length <= 10 || req.body.password.length <= 10) {
         res.status(406).send({ 
             status: 406,
             message: "Register failed, username and password must be at least 10 characters."
         });
     } else {
-        try {
-            const new_account = new Account(req.body);
-            await new_account.save();
-            res.status(200).send({
-                status: 200,
-                message: "Register successfully",
-                new_account,
-            });
-        } catch (err) {
-            res.status(500).send({ 
-                status: 500,
-                message: `${err}`
-            });
-        }
+        var username = req.body.username;
+
+        Account.findOne({ username: username }, async function (err, account) {
+            if (err) {
+                return res.status(500).send({
+                    message: `${err}`,
+                });
+            }
+    
+            if (account) {
+                return res.status(406).send({
+                    status: 406,
+                    message: "This  account is already created.",
+                });
+            }
+    
+            if (!account) {
+                try {
+                    const new_account = new Account(req.body);
+                    await new_account.save();
+                    res.status(200).send({
+                        status: 200,
+                        message: "Register successfully",
+                        new_account,
+                    });
+                } catch (err) {
+                    res.status(500).send({ message: `${err}` });
+                }
+            }
+        });
     }
 });
 
@@ -97,9 +106,8 @@ app.post("/login", async (req, res) => {
     Account.findOne({ username: username, password: password }, function (err, account) {
         if (err) {
             console.log(err);
-            return res.status(500).send({ 
-                status: 500,
-                message: `${err}`
+            return res.status(500).send({
+                message: err,
             });
         }
 
