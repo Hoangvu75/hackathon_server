@@ -34,7 +34,9 @@ mongoose.connect(
 
 app.get("/", async (req, res) => {
     res.send({
-        GET_Users: "https://hackathon-server-project.herokuapp.com/users"
+        GET_Users: "https://hackathon-server-project.herokuapp.com/users",
+        POST_Register: "https://hackathon-server-project.herokuapp.com/register",
+        POST_Login: "https://hackathon-server-project.herokuapp.com/login",
     });
 });
 
