@@ -13,7 +13,7 @@ const app = express();
 app.use(express.json());
 
 app.listen(process.env.PORT || 3000, () => {
-    console.log("Listening to 3000")
+    console.log("Listening to server")
 });
 
 
@@ -34,8 +34,9 @@ mongoose.connect(
 // protocol
 
 app.get("/", async (req, res) => {
-    res.send("This is backend server for our hackathon project\n" + 
-    "for get users data: https://hackathon-server-project.herokuapp.com/users\n");
+    res.send({
+        GET_Users: "https://hackathon-server-project.herokuapp.com/users"
+    });
 });
 
 app.get("/users", async (req, res) => {
