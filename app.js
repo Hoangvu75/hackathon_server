@@ -1,6 +1,5 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const { MongoClient } = require("mongodb");
 
 const User = require('./model/user');
 const Account = require('./model/account');
@@ -65,11 +64,15 @@ app.post("/create_user", async (req, res) => {
     }
 });
 
-app.post("/create_account", async (req, res) => {
+app.post("/register", async (req, res) => {
     try {
-        const my_account = new Account(req.body);
-        res.send(my_account);
-        await my_account.save();
+        const new_account = new Account(req.body);
+        await new_account.save();
+        res.send({
+            status: 200,
+            message: "Register successfully",
+            new_account,
+        });
     } catch (err) {
         res.send({ message: "error" });
     }
@@ -96,7 +99,7 @@ app.post("/login", async (req, res) => {
 
         return res.status(200).send({
             status: 200,
-            message: "Login success",
+            message: "Login successfully",
             account
         });
     });
