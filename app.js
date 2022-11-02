@@ -32,7 +32,7 @@ app.get('/', function(req, res) {
 app.get("/users", async (req, res) => {
     try {
         async function getResults() {
-            var arrayRes :any[] = [];
+            var arrayRes = [];
             for await (const doc of User.find()) {
                 arrayRes.push(doc);
             }
