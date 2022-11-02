@@ -148,23 +148,28 @@ app.post("/change_password", async (req, res) => {
         } 
         
         if (account) {
-            if (newPassword.length < 8) {
-                res.status(406).send({ 
-                    status: 406,
-                    message: "Request failed, password must be at least 8 characters."
-                });
-            } else if (newPassword !== retypeNewPassword) {
-                res.status(406).send({ 
-                    status: 406,
-                    message: "Request failed, please type correct password."
-                });
-            } else {
-                return res.status(200).send({
-                    status: 200,
-                    message: "Change password successfully",
-                    new_account,
-                });
-            }
+            // if (newPassword.length < 8) {
+            //     res.status(406).send({ 
+            //         status: 406,
+            //         message: "Request failed, password must be at least 8 characters."
+            //     });
+            // } else if (newPassword !== retypeNewPassword) {
+            //     res.status(406).send({ 
+            //         status: 406,
+            //         message: "Request failed, please type correct password."
+            //     });
+            // } else {
+            //     return res.status(200).send({
+            //         status: 200,
+            //         message: "Change password successfully",
+            //         new_account,
+            //     });
+            // }
+            return res.status(200).send({
+                status: 200,
+                message: "Change password successfully",
+                new_account,
+            });
         }
     });
 })
