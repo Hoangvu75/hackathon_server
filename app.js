@@ -39,19 +39,19 @@ app.get("/users", async (req, res) => {
             return arrayRes;
         }
         const results = await getResults();
-        res.send(results);
+        res.status(200).send(results);
     } catch (err) {
-        res.send({ message: "error" });
+        res.status(500).send({ message: `${err}` });
     }
 });
 
 app.post("/users/create_user", async (req, res) => {
     try {
         const my_user = new User(req.body);
-        res.send(my_user);
         await my_user.save();
+        res.status(200).send(my_user);
     } catch (err) {
-        res.send({ message: "error" });
+        res.status(500).send({ message: `${err}` });
     }
 });
 
