@@ -159,10 +159,22 @@ app.post("/change_password", async (req, res) => {
                     message: "Request failed, please type correct password."
                 });
             } else {
-                return res.status(200).send({
-                    status: 200,
-                    message: "Change password successfully",
-                });
+                Account.updateOne({ username: username, password: password }, 
+                    { username: username, password: newPassword }, 
+                    function (err, account) {
+                        if (err) {
+                            console.log(err);
+                            return res.status(500).send({
+                                message: err,
+                            });
+                        } else {
+                            return res.status(200).send({
+                                status: 200,
+                                message: "Change password successfully",
+                            });
+                        }
+                    }
+                );
             }
         }
     });
