@@ -56,7 +56,7 @@ app.get("/users", async (req, res) => {
     }
 });
 
-app.post("/create_user", async (req, res) => {
+app.post("/users/create_user", async (req, res) => {
     try {
         const my_user = new User(req.body);
         res.send(my_user);
@@ -66,7 +66,7 @@ app.post("/create_user", async (req, res) => {
     }
 });
 
-app.post("/register", async (req, res) => {
+app.post("/authen/register", async (req, res) => {
     if (req.body.username.length < 8 || req.body.password.length < 8) {
         res.status(406).send({ 
             status: 406,
@@ -106,7 +106,7 @@ app.post("/register", async (req, res) => {
     }
 });
 
-app.post("/login", async (req, res) => {
+app.post("/authen/login", async (req, res) => {
     var username = req.body.username;
     var password = req.body.password;
 
@@ -133,7 +133,7 @@ app.post("/login", async (req, res) => {
     });
 });
 
-app.post("/change_password", async (req, res) => {
+app.post("/authen/change_password", async (req, res) => {
     var username = req.body.username;
     var password = req.body.password;
     var newPassword = req.body.newPassword;
