@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 
 const User = require('./model/user');
 const Account = require('./model/account');
-const { application } = require('express');
 
 require("dotenv").config();
 
@@ -23,17 +22,7 @@ mongoose.connect(
     }
 );
 
-// protocol
-
-// app.get("/", async (req, res) => {
-//     res.send({
-//         GET_Users: "https://hackathon-server-project.herokuapp.com/users",
-//         POST_Register: "https://hackathon-server-project.herokuapp.com/register",
-//         POST_Login: "https://hackathon-server-project.herokuapp.com/login",
-//         POST_CreateUser: "https://hackathon-server-project.herokuapp.com/create_user",
-//         POST_ChangePassword: "https://hackathon-server-project.herokuapp.com/change_password",
-//     });
-// });
+// request
 
 app.get('/', function(req, res) {
     res.sendFile('./index.html', {root: __dirname })
@@ -43,7 +32,7 @@ app.get('/', function(req, res) {
 app.get("/users", async (req, res) => {
     try {
         async function getResults() {
-            var arrayRes = [];
+            var arrayRes :any[] = [];
             for await (const doc of User.find()) {
                 arrayRes.push(doc);
             }
