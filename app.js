@@ -161,7 +161,7 @@ app.post("/change_password", async (req, res) => {
             } else {
                 Account.updateOne({ username: username, password: password }, 
                     { username: username, password: newPassword }, 
-                    function (err, newAccount) {
+                    function (err) {
                         if (err) {
                             console.log(err);
                             return res.status(500).send({
@@ -170,8 +170,7 @@ app.post("/change_password", async (req, res) => {
                         } else {
                             return res.status(200).send({
                                 status: 200,
-                                message: "Change password successfully",
-                                newAccount
+                                message: "Change password successfully.",
                             });
                         }
                     }
