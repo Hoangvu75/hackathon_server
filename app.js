@@ -26,13 +26,14 @@ mongoose.connect(
 // protocol
 
 app.get("/", async (req, res) => {
-    res.send({
-        GET_Users: "https://hackathon-server-project.herokuapp.com/users",
-        POST_Register: "https://hackathon-server-project.herokuapp.com/register",
-        POST_Login: "https://hackathon-server-project.herokuapp.com/login",
-        POST_CreateUser: "https://hackathon-server-project.herokuapp.com/create_user",
-        POST_ChangePassword: "https://hackathon-server-project.herokuapp.com/change_password",
-    });
+    // res.send({
+    //     GET_Users: "https://hackathon-server-project.herokuapp.com/users",
+    //     POST_Register: "https://hackathon-server-project.herokuapp.com/register",
+    //     POST_Login: "https://hackathon-server-project.herokuapp.com/login",
+    //     POST_CreateUser: "https://hackathon-server-project.herokuapp.com/create_user",
+    //     POST_ChangePassword: "https://hackathon-server-project.herokuapp.com/change_password",
+    // });
+    res.sendFile("./index.html")
 });
 
 app.get("/users", async (req, res) => {
