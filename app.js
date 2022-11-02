@@ -86,13 +86,13 @@ app.post("/register", async (req, res) => {
                 try {
                     const new_account = new Account(req.body);
                     await new_account.save();
-                    res.status(200).send({
+                    return res.status(200).send({
                         status: 200,
                         message: "Register successfully",
                         new_account,
                     });
                 } catch (err) {
-                    res.status(500).send({ message: `${err}` });
+                    return res.status(500).send({ message: `${err}` });
                 }
             }
         });
@@ -125,3 +125,47 @@ app.post("/login", async (req, res) => {
         });
     });
 });
+
+app.post("/change_password", async (req, res) => {
+    var username = req.body.username;
+    var currentPassword = req.body.password;
+    var newPassword = req.body.newPassword;
+    var retypeNewPassword = req.body.retypeNewPassword;
+
+
+    Account.findOne({ username: username, password: currentPassword }, function (err, account) {
+        if (err) {
+            console.log(err);
+            return res.status(500).send({
+                message: err,
+            });
+        }
+
+        if (!account) {
+            return res.status(404).send({
+                status: 404,
+                message: "Wrong current password",
+            });
+        } 
+        
+        if (account) {
+            if (newPassword.length < 8) {
+                res.status(406).send({ 
+                    status: 406,
+                    message: "Request failed, password must be at least 8 characters."
+                });
+            } else if (newPassword !== retypeNewPassword) {
+                res.status(406).send({ 
+                    status: 406,
+                    message: "Request failed, please type correct password."
+                });
+            } else {
+                return res.status(200).send({
+                    status: 200,
+                    message: "Change password successfully",
+                    new_account,
+                });
+            }
+        }
+    });
+})
