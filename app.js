@@ -128,12 +128,12 @@ app.post("/login", async (req, res) => {
 
 app.post("/change_password", async (req, res) => {
     var username = req.body.username;
-    var currentPassword = req.body.password;
+    var password = req.body.password;
     var newPassword = req.body.newPassword;
     var retypeNewPassword = req.body.retypeNewPassword;
 
 
-    Account.findOne({ username: username, password: currentPassword }, function (err, account) {
+    Account.findOne({ username: username, password: password }, function (err, account) {
         if (err) {
             console.log(err);
             return res.status(500).send({
