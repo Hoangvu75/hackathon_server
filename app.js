@@ -143,51 +143,28 @@ app.post("/change_password", async (req, res) => {
         if (!account) {
             return res.status(404).send({
                 status: 404,
-                message: "Wrong username or password",
+                message: "Wrong current password",
             });
-        }
-
-        return res.status(200).send({
-            status: 200,
-            message: "Login successfully",
-            account
-        });
-    });
-
-
-    // Account.findOne({ username: username, password: password }, function (err, account) {
-    //     if (err) {
-    //         console.log(err);
-    //         return res.status(500).send({
-    //             message: err,
-    //         });
-    //     }
-
-    //     if (!account) {
-    //         return res.status(404).send({
-    //             status: 404,
-    //             message: "Wrong current password",
-    //         });
-    //     } 
+        } 
         
-    //     if (account) {
-    //         if (newPassword.length < 8) {
-    //             res.status(406).send({ 
-    //                 status: 406,
-    //                 message: "Request failed, password must be at least 8 characters."
-    //             });
-    //         } else if (newPassword !== retypeNewPassword) {
-    //             res.status(406).send({ 
-    //                 status: 406,
-    //                 message: "Request failed, please type correct password."
-    //             });
-    //         } else {
-    //             return res.status(200).send({
-    //                 status: 200,
-    //                 message: "Change password successfully",
-    //                 new_account,
-    //             });
-    //         }
-    //     }
-    // });
+        if (account) {
+            if (newPassword.length < 8) {
+                res.status(406).send({ 
+                    status: 406,
+                    message: "Request failed, password must be at least 8 characters."
+                });
+            } else if (newPassword !== retypeNewPassword) {
+                res.status(406).send({ 
+                    status: 406,
+                    message: "Request failed, please type correct password."
+                });
+            } else {
+                return res.status(200).send({
+                    status: 200,
+                    message: "Change password successfully",
+                    new_account,
+                });
+            }
+        }
+    });
 })
