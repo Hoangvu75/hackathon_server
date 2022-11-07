@@ -6,6 +6,8 @@ import Account from './model/account';
 
 require("dotenv").config();
 
+import DB_CONNECTION_STRING from './utils/access_link';
+
 const app = express();
 
 app.use(express.json());
@@ -15,7 +17,7 @@ app.listen(process.env.PORT || 3000, () => {
 });
 
 mongoose.connect(
-    process.env.DB_CONNECTION_STRING, 
+    DB_CONNECTION_STRING, 
     () => {
         console.log("Connected to the database");
     }
@@ -63,7 +65,7 @@ app.post("/authen/register", async (req: any, res: any) => {
     } else {
         var username = req.body.username;
 
-        Account.findOne({ username: username }, async function (err, account) {
+        Account.findOne({ username: username }, async function (err: any, account: any) {
             if (err) {
                 return res.status(500).send({
                     message: `${err}`,
@@ -98,7 +100,7 @@ app.post("/authen/login", async (req: any, res: any) => {
     var username = req.body.username;
     var password = req.body.password;
 
-    Account.findOne({ username: username, password: password }, function (err, account) {
+    Account.findOne({ username: username, password: password }, function (err: any, account: any) {
         if (err) {
             console.log(err);
             return res.status(500).send({
@@ -127,7 +129,7 @@ app.post("/authen/change_password", async (req: any, res: any) => {
     var newPassword = req.body.newPassword;
     var retypeNewPassword = req.body.retypeNewPassword;
 
-    Account.findOne({ username: username, password: password }, function (err, account) {
+    Account.findOne({ username: username, password: password }, function (err: any, account: any) {
         if (err) {
             console.log(err);
             return res.status(500).send({
@@ -156,7 +158,7 @@ app.post("/authen/change_password", async (req: any, res: any) => {
             } else {
                 Account.updateOne({ username: username, password: password }, 
                     { username: username, password: newPassword }, 
-                    function (err) {
+                    function (err: string) {
                         if (err) {
                             console.log(err);
                             return res.status(500).send({

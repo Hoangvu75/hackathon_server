@@ -24,12 +24,13 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const user_1 = __importDefault(require("./model/user"));
 const account_1 = __importDefault(require("./model/account"));
 require("dotenv").config();
+const access_link_1 = __importDefault(require("./utils/access_link"));
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.listen(process.env.PORT || 3000, () => {
     console.log("Listening to server");
 });
-mongoose_1.default.connect(process.env.DB_CONNECTION_STRING, () => {
+mongoose_1.default.connect(access_link_1.default, () => {
     console.log("Connected to the database");
 });
 // request
