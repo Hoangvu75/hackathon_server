@@ -1,8 +1,8 @@
-const express = require('express');
-const mongoose = require('mongoose');
+import express from 'express';
+import mongoose from 'mongoose';
 
-const User = require('./model/user');
-const Account = require('./model/account');
+import User from './model/user';
+import Account from './model/account';
 
 require("dotenv").config();
 
@@ -16,20 +16,19 @@ app.listen(process.env.PORT || 3000, () => {
 
 mongoose.connect(
     process.env.DB_CONNECTION_STRING, 
-    { useUnifiedTopology: true, useNewUrlParser: true },
-    (req: any, res: any) => {
+    () => {
         console.log("Connected to the database");
     }
 );
 
 // request
 
-app.get('/', function(req: any, res: any) {
+app.get('/', function(_req: any, res: any) {
     res.sendFile('./index.html', {root: __dirname })
 });
 
 
-app.get("/users", async (req: any, res: any) => {
+app.get("/users", async (_req: any, res: any) => {
     try {
         async function getResults() {
             var arrayRes:any[] = [];
