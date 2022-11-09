@@ -1,0 +1,15 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.LINK_AUTHEN_CHANGE_PASSWORD = exports.LINK_AUTHEN_LOGIN = exports.LINK_AUTHEN_REGISTER = exports.LINK_CREATE_USER = exports.LINK_USER = exports.LINK = void 0;
+const LINK = "/";
+exports.LINK = LINK;
+const LINK_USER = "/users";
+exports.LINK_USER = LINK_USER;
+const LINK_CREATE_USER = "/users/create_user";
+exports.LINK_CREATE_USER = LINK_CREATE_USER;
+const LINK_AUTHEN_REGISTER = "/authen/register";
+exports.LINK_AUTHEN_REGISTER = LINK_AUTHEN_REGISTER;
+const LINK_AUTHEN_LOGIN = "/authen/login";
+exports.LINK_AUTHEN_LOGIN = LINK_AUTHEN_LOGIN;
+const LINK_AUTHEN_CHANGE_PASSWORD = "/authen/change_password";
+exports.LINK_AUTHEN_CHANGE_PASSWORD = LINK_AUTHEN_CHANGE_PASSWORD;

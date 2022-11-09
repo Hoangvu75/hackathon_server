@@ -4,7 +4,8 @@ import mongoose from 'mongoose';
 import User from './model/user';
 import Account from './model/account';
 
-import DB_CONNECTION_STRING from './utils/access_link';
+import * as ACCESS_LINK from './utils/access_link';
+import * as API_LINK from './utils/api_link';
 
 const app = express();
 app.use(express.json());
@@ -12,26 +13,30 @@ app.use(express.json());
 function initate_server() {
     const PORT = process.env.PORT || 3000;
     app.listen(PORT, () => {
-        console.log(`Listening to server: ${PORT}`);
+        console.log(`Listening to server: ${PORT}, connecting to the database...`);
     });
 }
 
 function setup_database_connection() {
     mongoose.connect(
-        DB_CONNECTION_STRING, 
-        () => {
-            console.log("Connected to the database");
+        ACCESS_LINK.DB_CONNECTION_STRINGS, 
+        function(err) {
+            console.log("Initialization completed.");
+            if (err) {
+                console.log("Connection error");
+                throw err;
+            }
         }
-    );
+    );   
 }
 
 function setup_get_request() {
-    app.get('/', function(_req: any, res: any) {
+    app.get(API_LINK.LINK, function(_req: any, res: any) {
         res.sendFile('./index.html', {root: __dirname })
     });
     
     
-    app.get("/users", async (_req: any, res: any) => {
+    app.get(API_LINK.LINK_USER, async (_req: any, res: any) => {
         try {
             async function getResults() {
                 var arrayRes:any[] = [];
@@ -49,7 +54,7 @@ function setup_get_request() {
 }
 
 function setup_post_request() {
-    app.post("/users/create_user", async (req: any, res: any) => {
+    app.post(API_LINK.LINK_CREATE_USER, async (req: any, res: any) => {
         try {
             const my_user = new User(req.body);
             await my_user.save();
@@ -59,7 +64,7 @@ function setup_post_request() {
         }
     });
     
-    app.post("/authen/register", async (req: any, res: any) => {
+    app.post(API_LINK.LINK_AUTHEN_REGISTER, async (req: any, res: any) => {
         if (req.body.username.length < 8 || req.body.password.length < 8) {
             res.status(406).send({ 
                 status: 406,
@@ -99,7 +104,7 @@ function setup_post_request() {
         }
     });
     
-    app.post("/authen/login", async (req: any, res: any) => {
+    app.post(API_LINK.LINK_AUTHEN_LOGIN, async (req: any, res: any) => {
         var username = req.body.username;
         var password = req.body.password;
     
@@ -126,7 +131,7 @@ function setup_post_request() {
         });
     });
     
-    app.post("/authen/change_password", async (req: any, res: any) => {
+    app.post(API_LINK.LINK_AUTHEN_CHANGE_PASSWORD, async (req: any, res: any) => {
         var username = req.body.username;
         var password = req.body.password;
         var newPassword = req.body.newPassword;
@@ -161,7 +166,7 @@ function setup_post_request() {
                 } else {
                     Account.updateOne({ username: username, password: password }, 
                         { username: username, password: newPassword }, 
-                        function (err: string) {
+                        function (err: any) {
                             if (err) {
                                 console.log(err);
                                 return res.status(500).send({
