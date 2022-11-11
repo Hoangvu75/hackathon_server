@@ -192,7 +192,7 @@ function setup_post_request() {
                 return res.status(404).send({
                     success: false,
                     message: "Wrong username or password",
-                    account: null,
+                    account: "",
                 });
             }
             return res.status(200).send({
