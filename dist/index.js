@@ -121,7 +121,6 @@ function setup_post_request() {
             return res.status(500).send({
                 success: false,
                 message: err,
-                user: null
             });
         }
     }));
@@ -173,7 +172,6 @@ function setup_post_request() {
             return res.status(500).send({
                 success: false,
                 message: err,
-                account: null,
             });
         }
     }));
@@ -185,14 +183,12 @@ function setup_post_request() {
                 return res.status(500).send({
                     success: false,
                     message: err,
-                    account: null,
                 });
             }
             if (!account) {
                 return res.status(404).send({
                     success: false,
                     message: "Wrong username or password",
-                    account: "",
                 });
             }
             return res.status(200).send({
