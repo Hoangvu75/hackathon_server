@@ -114,7 +114,7 @@ function setup_post_request() {
             return res.status(200).send({
                 success: true,
                 message: "Create user successfully",
-                user: my_user,
+                data: my_user,
             });
         }
         catch (err) {
@@ -165,7 +165,7 @@ function setup_post_request() {
             return res.status(200).send({
                 success: true,
                 message: "Register successfully",
-                account: new_account,
+                data: new_account,
             });
         }
         catch (err) {
@@ -194,7 +194,7 @@ function setup_post_request() {
             return res.status(200).send({
                 success: true,
                 message: "Login successfully",
-                account: account,
+                data: account,
             });
         });
     }));

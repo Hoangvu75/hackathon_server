@@ -64,7 +64,7 @@ function setup_post_request() {
       return res.status(200).send({
         success: true,
         message: "Create user successfully",
-        user: my_user,
+        data: my_user,
       });
     } catch (err) {
       return res.status(500).send({
@@ -118,7 +118,7 @@ function setup_post_request() {
       return res.status(200).send({
         success: true,
         message: "Register successfully",
-        account: new_account,
+        data: new_account,
       });
     } catch (err) {
       return res.status(500).send({
@@ -152,7 +152,7 @@ function setup_post_request() {
         return res.status(200).send({
           success: true,
           message: "Login successfully",
-          account: account,
+          data: account,
         });
       }
     );
@@ -186,8 +186,7 @@ function setup_post_request() {
           if (newPassword.length < 8) {
             return res.status(406).send({
               success: false,
-              message:
-                "Request failed, password must be at least 8 characters.",
+              message: "Request failed, password must be at least 8 characters.",
             });
           } else if (newPassword !== retypeNewPassword) {
             return res.status(406).send({
