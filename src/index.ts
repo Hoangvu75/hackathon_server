@@ -352,12 +352,11 @@ function setup_post_request() {
   });
 
   app.post(API_LINK.LINK_USER_PERSONAL_PROFILE, async (req: any, res: any) => {
-    var id = req.body.id;
     var username = req.body.username;
 
     try {
       User.findOne(
-        { _id: id, username: username },
+        { username: username },
         async function (err: any, user: any) {
           if (err) {
             return res.status(500).send({
