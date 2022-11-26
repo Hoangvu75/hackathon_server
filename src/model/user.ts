@@ -1,11 +1,12 @@
 import { Schema, model } from 'mongoose';
 
 const User = new Schema({
-    username: String,
-    name: String,
-    age: Number,
-    location: String,
-    image_url: String,
+    username: { type: String, required: true },
+    name: { type: String, required: true },
+    age: { type: Number, required: true },
+    location: { type: String, required: true },
+    image_url: { type: String, default: null },
+    participated_campaign: { type: Array, default: null }, 
 })
 
 export default model("user", User);
