@@ -105,6 +105,39 @@ function setup_get_request() {
             });
         }
     }));
+    app.get(API_LINK.LINK_USER_PERSONAL_PROFILE, (req, res) => __awaiter(this, void 0, void 0, function* () {
+        var username = req.body.username;
+        try {
+            user_1.default.findOne({ username: username }, function (err, user) {
+                return __awaiter(this, void 0, void 0, function* () {
+                    if (err) {
+                        return res.status(500).send({
+                            message: `${err}`,
+                        });
+                    }
+                    if (user) {
+                        return res.status(200).send({
+                            success: true,
+                            message: "Get profile data successfully",
+                            data: user
+                        });
+                    }
+                    if (!user) {
+                        return res.status(404).send({
+                            success: false,
+                            message: "Invalid account",
+                        });
+                    }
+                });
+            });
+        }
+        catch (err) {
+            res.status(500).send({
+                success: false,
+                message: err,
+            });
+        }
+    }));
 }
 function setup_post_request() {
     app.post(API_LINK.LINK_CREATE_USER, (req, res) => __awaiter(this, void 0, void 0, function* () {

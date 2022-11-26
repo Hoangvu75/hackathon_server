@@ -1,11 +1,11 @@
-const LINK = "/";
-const LINK_USER = "/users";
+export const LINK = "/";
+export const LINK_USER = "/users";
+export const LINK_USER_PERSONAL_PROFILE = "/personal/profile";
 
-const LINK_CREATE_USER = "/users/create_user";
-const LINK_AUTHEN_REGISTER = "/authen/register";
-const LINK_AUTHEN_LOGIN = "/authen/login";
-const LINK_AUTHEN_CHANGE_PASSWORD = "/authen/change_password";
+export const LINK_CREATE_USER = "/users/create_user";
+export const LINK_AUTHEN_REGISTER = "/authen/register";
+export const LINK_AUTHEN_LOGIN = "/authen/login";
+export const LINK_AUTHEN_CHANGE_PASSWORD = "/authen/change_password";
 
-export { LINK, LINK_USER, LINK_CREATE_USER, LINK_AUTHEN_REGISTER, LINK_AUTHEN_LOGIN, LINK_AUTHEN_CHANGE_PASSWORD };
 
 
