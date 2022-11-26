@@ -47,6 +47,7 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const user_1 = __importDefault(require("./model/user"));
 const account_1 = __importDefault(require("./model/account"));
 const campaign_1 = __importDefault(require("./model/campaign"));
+const idea_1 = __importDefault(require("./model/idea"));
 const ACCESS_LINK = __importStar(require("./utils/access_link"));
 const API_LINK = __importStar(require("./utils/api_link"));
 const app = (0, express_1.default)();
@@ -120,7 +121,7 @@ function setup_get_request() {
                         return res.status(200).send({
                             success: true,
                             message: "Get profile data successfully",
-                            data: user
+                            data: user,
                         });
                     }
                     if (!user) {
@@ -165,6 +166,42 @@ function setup_get_request() {
             res.status(200).send({
                 success: true,
                 message: "Get campaign list successfully",
+                data: results,
+            });
+        }
+        catch (err) {
+            res.status(500).send({
+                success: false,
+                message: err,
+            });
+        }
+    }));
+    app.get(API_LINK.LINK_IDEA_GET, (_req, res) => __awaiter(this, void 0, void 0, function* () {
+        try {
+            function getResults() {
+                var e_3, _a;
+                return __awaiter(this, void 0, void 0, function* () {
+                    var arrayRes = [];
+                    try {
+                        for (var _b = __asyncValues(idea_1.default.find()), _c; _c = yield _b.next(), !_c.done;) {
+                            const doc = _c.value;
+                            arrayRes.push(doc);
+                        }
+                    }
+                    catch (e_3_1) { e_3 = { error: e_3_1 }; }
+                    finally {
+                        try {
+                            if (_c && !_c.done && (_a = _b.return)) yield _a.call(_b);
+                        }
+                        finally { if (e_3) throw e_3.error; }
+                    }
+                    return arrayRes;
+                });
+            }
+            const results = yield getResults();
+            res.status(200).send({
+                success: true,
+                message: "Get idea list successfully",
                 data: results,
             });
         }
@@ -312,7 +349,27 @@ function setup_post_request() {
             });
         }
         catch (err) {
-            return res.status(500).send({ message: `${err}` });
+            return res.status(500).send({
+                success: false,
+                message: `${err}`,
+            });
+        }
+    }));
+    app.post(API_LINK.LINK_IDEA_POST, (req, res) => __awaiter(this, void 0, void 0, function* () {
+        try {
+            const new_idea = new idea_1.default(req.body);
+            yield new_idea.save();
+            return res.status(200).send({
+                success: true,
+                message: "Create idea successfully",
+                new_idea,
+            });
+        }
+        catch (err) {
+            return res.status(500).send({
+                success: false,
+                message: `${err}`,
+            });
         }
     }));
 }

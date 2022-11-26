@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import User from "./model/user";
 import Account from "./model/account";
 import Campaign from "./model/campaign";
+import Idea from "./model/idea";
 
 import * as ACCESS_LINK from "./utils/access_link";
 import * as API_LINK from "./utils/api_link";
@@ -73,7 +74,7 @@ function setup_get_request() {
             return res.status(200).send({
               success: true,
               message: "Get profile data successfully",
-              data: user
+              data: user,
             });
           }
 
@@ -106,6 +107,29 @@ function setup_get_request() {
       res.status(200).send({
         success: true,
         message: "Get campaign list successfully",
+        data: results,
+      });
+    } catch (err) {
+      res.status(500).send({
+        success: false,
+        message: err,
+      });
+    }
+  });
+
+  app.get(API_LINK.LINK_IDEA_GET, async (_req: any, res: any) => {
+    try {
+      async function getResults() {
+        var arrayRes: any[] = [];
+        for await (const doc of Idea.find()) {
+          arrayRes.push(doc);
+        }
+        return arrayRes;
+      }
+      const results = await getResults();
+      res.status(200).send({
+        success: true,
+        message: "Get idea list successfully",
         data: results,
       });
     } catch (err) {
@@ -269,7 +293,27 @@ function setup_post_request() {
         new_campaign,
       });
     } catch (err) {
-      return res.status(500).send({ message: `${err}` });
+      return res.status(500).send({
+        success: false,
+        message: `${err}`,
+      });
+    }
+  });
+
+  app.post(API_LINK.LINK_IDEA_POST, async (req: any, res: any) => {
+    try {
+      const new_idea = new Idea(req.body);
+      await new_idea.save();
+      return res.status(200).send({
+        success: true,
+        message: "Create idea successfully",
+        new_idea,
+      });
+    } catch (err) {
+      return res.status(500).send({
+        success: false,
+        message: `${err}`,
+      });
     }
   });
 }
