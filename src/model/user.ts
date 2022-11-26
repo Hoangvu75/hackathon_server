@@ -1,10 +1,11 @@
 import { Schema, model } from 'mongoose';
 
 const User = new Schema({
+    username: String,
     name: String,
     age: Number,
-    university: String,
-    class: String,
+    location: String,
+    image_url: String,
 })
 
 export default model("user", User);
