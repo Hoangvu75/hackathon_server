@@ -125,14 +125,15 @@ function setup_post_request() {
         }
     }));
     app.post(API_LINK.LINK_AUTHEN_REGISTER, (req, res) => __awaiter(this, void 0, void 0, function* () {
-        if (req.body.username.length < 8 || req.body.password.length < 8) {
+        var username = req.body.username;
+        var password = req.body.password;
+        if (username.length < 8 || password.length < 8) {
             res.status(406).send({
                 success: false,
                 message: "Register failed, username and password must be at least 8 characters."
             });
         }
         else {
-            var username = req.body.username;
             account_1.default.findOne({ username: username }, function (err, account) {
                 return __awaiter(this, void 0, void 0, function* () {
                     if (err) {
@@ -163,20 +164,6 @@ function setup_post_request() {
                 });
             });
         }
-        // try {
-        //   const new_account = new Account(req.body);
-        //   await new_account.save();
-        //   return res.status(200).send({
-        //     success: true,
-        //     message: "Register successfully",
-        //     data: new_account,
-        //   });
-        // } catch (err) {
-        //   return res.status(500).send({
-        //     success: false,
-        //     message: err,
-        //   });
-        // }
     }));
     app.post(API_LINK.LINK_AUTHEN_LOGIN, (req, res) => __awaiter(this, void 0, void 0, function* () {
         var username = req.body.username;
