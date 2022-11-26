@@ -46,6 +46,7 @@ const express_1 = __importDefault(require("express"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const user_1 = __importDefault(require("./model/user"));
 const account_1 = __importDefault(require("./model/account"));
+const campaign_1 = __importDefault(require("./model/campaign"));
 const ACCESS_LINK = __importStar(require("./utils/access_link"));
 const API_LINK = __importStar(require("./utils/api_link"));
 const app = (0, express_1.default)();
@@ -129,6 +130,42 @@ function setup_get_request() {
                         });
                     }
                 });
+            });
+        }
+        catch (err) {
+            res.status(500).send({
+                success: false,
+                message: err,
+            });
+        }
+    }));
+    app.get(API_LINK.LINK_CAMPAIGN_GET, (_req, res) => __awaiter(this, void 0, void 0, function* () {
+        try {
+            function getResults() {
+                var e_2, _a;
+                return __awaiter(this, void 0, void 0, function* () {
+                    var arrayRes = [];
+                    try {
+                        for (var _b = __asyncValues(campaign_1.default.find()), _c; _c = yield _b.next(), !_c.done;) {
+                            const doc = _c.value;
+                            arrayRes.push(doc);
+                        }
+                    }
+                    catch (e_2_1) { e_2 = { error: e_2_1 }; }
+                    finally {
+                        try {
+                            if (_c && !_c.done && (_a = _b.return)) yield _a.call(_b);
+                        }
+                        finally { if (e_2) throw e_2.error; }
+                    }
+                    return arrayRes;
+                });
+            }
+            const results = yield getResults();
+            res.status(200).send({
+                success: true,
+                message: "Get campaign list successfully",
+                data: results,
             });
         }
         catch (err) {
@@ -263,6 +300,20 @@ function setup_post_request() {
                 }
             }
         });
+    }));
+    app.post(API_LINK.LINK_CAMPAIGN_POST, (req, res) => __awaiter(this, void 0, void 0, function* () {
+        try {
+            const new_campaign = new campaign_1.default(req.body);
+            yield new_campaign.save();
+            return res.status(200).send({
+                success: true,
+                message: "Create campaign successfully",
+                new_campaign,
+            });
+        }
+        catch (err) {
+            return res.status(500).send({ message: `${err}` });
+        }
     }));
 }
 function main() {

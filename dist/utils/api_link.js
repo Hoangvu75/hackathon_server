@@ -1,10 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.LINK_AUTHEN_CHANGE_PASSWORD = exports.LINK_AUTHEN_LOGIN = exports.LINK_AUTHEN_REGISTER = exports.LINK_CREATE_USER = exports.LINK_USER_PERSONAL_PROFILE = exports.LINK_USER = exports.LINK = void 0;
+exports.LINK_CAMPAIGN_GET = exports.LINK_CAMPAIGN_POST = exports.LINK_USER_PERSONAL_PROFILE = exports.LINK_AUTHEN_CHANGE_PASSWORD = exports.LINK_AUTHEN_LOGIN = exports.LINK_AUTHEN_REGISTER = exports.LINK_CREATE_USER = exports.LINK_USER = exports.LINK = void 0;
 exports.LINK = "/";
 exports.LINK_USER = "/users";
-exports.LINK_USER_PERSONAL_PROFILE = "/personal/profile";
 exports.LINK_CREATE_USER = "/users/create_user";
 exports.LINK_AUTHEN_REGISTER = "/authen/register";
 exports.LINK_AUTHEN_LOGIN = "/authen/login";
 exports.LINK_AUTHEN_CHANGE_PASSWORD = "/authen/change_password";
+exports.LINK_USER_PERSONAL_PROFILE = "/personal/profile";
+exports.LINK_CAMPAIGN_POST = "/campaign/post_campaign";
+exports.LINK_CAMPAIGN_GET = "/campaign/get_campaign";

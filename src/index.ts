@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 
 import User from "./model/user";
 import Account from "./model/account";
+import Campaign from "./model/campaign";
 
 import * as ACCESS_LINK from "./utils/access_link";
 import * as API_LINK from "./utils/api_link";
@@ -84,6 +85,29 @@ function setup_get_request() {
           }
         }
       );
+    } catch (err) {
+      res.status(500).send({
+        success: false,
+        message: err,
+      });
+    }
+  });
+
+  app.get(API_LINK.LINK_CAMPAIGN_GET, async (_req: any, res: any) => {
+    try {
+      async function getResults() {
+        var arrayRes: any[] = [];
+        for await (const doc of Campaign.find()) {
+          arrayRes.push(doc);
+        }
+        return arrayRes;
+      }
+      const results = await getResults();
+      res.status(200).send({
+        success: true,
+        message: "Get campaign list successfully",
+        data: results,
+      });
     } catch (err) {
       res.status(500).send({
         success: false,
@@ -233,6 +257,20 @@ function setup_post_request() {
         }
       }
     });
+  });
+
+  app.post(API_LINK.LINK_CAMPAIGN_POST, async (req: any, res: any) => {
+    try {
+      const new_campaign = new Campaign(req.body);
+      await new_campaign.save();
+      return res.status(200).send({
+        success: true,
+        message: "Create campaign successfully",
+        new_campaign,
+      });
+    } catch (err) {
+      return res.status(500).send({ message: `${err}` });
+    }
   });
 }
 
