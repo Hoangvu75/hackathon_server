@@ -6,6 +6,7 @@ const Campaign = new Schema({
     description: { type: String, required: true, minLength: 8 },
     start_time: { type: Number, required: true },
     image: { type: String },
+    location: { type: String, required: true },
     followers: { type: Array }
 })
 
