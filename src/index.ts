@@ -77,7 +77,7 @@ function setup_post_request() {
   app.post(API_LINK.LINK_AUTHEN_REGISTER, async (req: any, res: any) => {
     if (req.body.username.length < 8 || req.body.password.length < 8) {
         res.status(406).send({
-            status: 406,
+            success: false,
             message: "Register failed, username and password must be at least 8 characters."
         });
     } else {
@@ -92,7 +92,7 @@ function setup_post_request() {
 
             if (account) {
                 return res.status(406).send({
-                    status: 406,
+                    success: false,
                     message: "Register failed, this  account is already created.",
                 });
             }
@@ -102,7 +102,7 @@ function setup_post_request() {
                     const new_account = new Account(req.body);
                     await new_account.save();
                     return res.status(200).send({
-                        status: 200,
+                        success: true,
                         message: "Register successfully",
                         new_account,
                     });
