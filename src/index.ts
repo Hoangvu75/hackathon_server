@@ -304,42 +304,71 @@ function setup_post_request() {
     var user_id = req.body.user_id;
     var added_campaign_id = req.body.added_campaign_id;
 
-    User.findOne({ _id: user_id }, function (err: any, user: any) {
-      if (err) {
-        console.log(err);
-        return res.status(500).send({
-          success: false,
-          message: err,
-        });
-      }
+    Campaign.findOne(
+      { _id: added_campaign_id },
+      function (err: any, campaign: any) {
+        if (err) {
+          console.log(err);
+          return res.status(500).send({
+            success: false,
+            message: err,
+          });
+        }
 
-      if (!user) {
-        return res.status(404).send({
-          success: false,
-          message: "Invalid user",
-        });
-      }
+        if (!campaign) {
+          return res.status(404).send({
+            success: false,
+            message: "Invalid campaign",
+          });
+        }
 
-      if (user) {
-        User.updateOne(
-          { _id: user_id },
-          { $push: { participated_campaign: added_campaign_id } },
-          function (err: any) {
+        if (campaign) {
+          // return res.status(200).send({
+          //   success: true,
+          //   campaign
+          // });
+          User.findOne({ _id: user_id }, function (err: any, user: any) {
             if (err) {
+              console.log(err);
               return res.status(500).send({
                 success: false,
                 message: err,
               });
-            } else {
-              return res.status(200).send({
-                success: true,
-                message: "Add campaign successfully.",
+            }
+      
+            if (!user) {
+              return res.status(404).send({
+                success: false,
+                message: "Invalid user",
               });
             }
-          }
-        );
+      
+            if (user) {
+              User.updateOne(
+                { _id: user_id },
+                { $push: { participated_campaign: campaign } },
+                function (err: any) {
+                  if (err) {
+                    return res.status(500).send({
+                      success: false,
+                      message: err,
+                    });
+                  } else {
+                    return res.status(200).send({
+                      success: true,
+                      message: "Add campaign successfully.",
+                    });
+                  }
+                }
+              );
+            }
+          });
+        }
       }
-    });
+    );
+    
+
+    
   });
 
   app.post(API_LINK.LINK_IDEA_POST, async (req: any, res: any) => {

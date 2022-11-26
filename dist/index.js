@@ -358,7 +358,7 @@ function setup_post_request() {
     app.post(API_LINK.LINK_ADD_CAMPAIGN, (req, res) => __awaiter(this, void 0, void 0, function* () {
         var user_id = req.body.user_id;
         var added_campaign_id = req.body.added_campaign_id;
-        user_1.default.findOne({ _id: user_id }, function (err, user) {
+        campaign_1.default.findOne({ _id: added_campaign_id }, function (err, campaign) {
             if (err) {
                 console.log(err);
                 return res.status(500).send({
@@ -366,24 +366,45 @@ function setup_post_request() {
                     message: err,
                 });
             }
-            if (!user) {
+            if (!campaign) {
                 return res.status(404).send({
                     success: false,
-                    message: "Invalid user",
+                    message: "Invalid campaign",
                 });
             }
-            if (user) {
-                user_1.default.updateOne({ _id: user_id }, { $push: { participated_campaign: added_campaign_id } }, function (err) {
+            if (campaign) {
+                // return res.status(200).send({
+                //   success: true,
+                //   campaign
+                // });
+                user_1.default.findOne({ _id: user_id }, function (err, user) {
                     if (err) {
+                        console.log(err);
                         return res.status(500).send({
                             success: false,
                             message: err,
                         });
                     }
-                    else {
-                        return res.status(200).send({
-                            success: true,
-                            message: "Add campaign successfully.",
+                    if (!user) {
+                        return res.status(404).send({
+                            success: false,
+                            message: "Invalid user",
+                        });
+                    }
+                    if (user) {
+                        user_1.default.updateOne({ _id: user_id }, { $push: { participated_campaign: campaign } }, function (err) {
+                            if (err) {
+                                return res.status(500).send({
+                                    success: false,
+                                    message: err,
+                                });
+                            }
+                            else {
+                                return res.status(200).send({
+                                    success: true,
+                                    message: "Add campaign successfully.",
+                                });
+                            }
                         });
                     }
                 });
