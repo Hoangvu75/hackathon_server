@@ -57,44 +57,6 @@ function setup_get_request() {
     }
   });
 
-  app.get(API_LINK.LINK_USER_PERSONAL_PROFILE, async (req: any, res: any) => {
-    var id = req.body.id;
-    var username = req.body.username;
-
-    try {
-      User.findOne(
-        { _id: id, username: username },
-        async function (err: any, user: any) {
-          if (err) {
-            return res.status(500).send({
-              message: `${err}`,
-            });
-          }
-
-          if (user) {
-            return res.status(200).send({
-              success: true,
-              message: "Get profile data successfully",
-              data: user,
-            });
-          }
-
-          if (!user) {
-            return res.status(404).send({
-              success: false,
-              message: "Invalid account",
-            });
-          }
-        }
-      );
-    } catch (err) {
-      res.status(500).send({
-        success: false,
-        message: err,
-      });
-    }
-  });
-
   app.get(API_LINK.LINK_CAMPAIGN_GET, async (_req: any, res: any) => {
     try {
       async function getResults() {
@@ -385,6 +347,44 @@ function setup_post_request() {
       return res.status(500).send({
         success: false,
         message: `${err}`,
+      });
+    }
+  });
+
+  app.post(API_LINK.LINK_USER_PERSONAL_PROFILE, async (req: any, res: any) => {
+    var id = req.body.id;
+    var username = req.body.username;
+
+    try {
+      User.findOne(
+        { _id: id, username: username },
+        async function (err: any, user: any) {
+          if (err) {
+            return res.status(500).send({
+              message: `${err}`,
+            });
+          }
+
+          if (user) {
+            return res.status(200).send({
+              success: true,
+              message: "Get profile data successfully",
+              data: user,
+            });
+          }
+
+          if (!user) {
+            return res.status(404).send({
+              success: false,
+              message: "Invalid account",
+            });
+          }
+        }
+      );
+    } catch (err) {
+      res.status(500).send({
+        success: false,
+        message: err,
       });
     }
   });
