@@ -108,9 +108,10 @@ function setup_get_request() {
         }
     }));
     app.get(API_LINK.LINK_USER_PERSONAL_PROFILE, (req, res) => __awaiter(this, void 0, void 0, function* () {
+        var id = req.body.id;
         var username = req.body.username;
         try {
-            user_1.default.findOne({ username: username }, function (err, user) {
+            user_1.default.findOne({ _id: id, username: username }, function (err, user) {
                 return __awaiter(this, void 0, void 0, function* () {
                     if (err) {
                         return res.status(500).send({
