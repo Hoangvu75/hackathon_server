@@ -11,6 +11,7 @@ export const LINK_USER_PERSONAL_PROFILE = "/personal/profile";
 
 export const LINK_CAMPAIGN_POST = "/campaign/post_campaign";
 export const LINK_CAMPAIGN_GET = "/campaign/get_campaign";
+export const LINK_ADD_CAMPAIGN = "/campaign/add_campaign";
 
 export const LINK_IDEA_POST = "/idea/post_idea";
 export const LINK_IDEA_GET = "/idea/get_idea";
