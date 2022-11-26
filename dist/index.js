@@ -125,55 +125,58 @@ function setup_post_request() {
         }
     }));
     app.post(API_LINK.LINK_AUTHEN_REGISTER, (req, res) => __awaiter(this, void 0, void 0, function* () {
-        // if (req.body.username.length < 8 || req.body.password.length < 8) {
-        //     res.status(406).send({
-        //         status: 406,
-        //         message: "Register failed, username and password must be at least 8 characters."
-        //     });
-        // } else {
-        //     var username = req.body.username;
-        //     Account.findOne({ username: username }, async function (err: any, account: any) {
-        //         if (err) {
-        //             return res.status(500).send({
-        //                 message: `${err}`,
-        //             });
-        //         }
-        //         if (account) {
-        //             return res.status(406).send({
-        //                 status: 406,
-        //                 message: "Register failed, this  account is already created.",
-        //             });
-        //         }
-        //         if (!account) {
-        //             try {
-        //                 const new_account = new Account(req.body);
-        //                 await new_account.save();
-        //                 return res.status(200).send({
-        //                     status: 200,
-        //                     message: "Register successfully",
-        //                     new_account,
-        //                 });
-        //             } catch (err) {
-        //                 return res.status(500).send({ message: `${err}` });
-        //             }
-        //         }
-        //     });
+        if (req.body.username.length < 8 || req.body.password.length < 8) {
+            res.status(406).send({
+                status: 406,
+                message: "Register failed, username and password must be at least 8 characters."
+            });
+        }
+        else {
+            var username = req.body.username;
+            account_1.default.findOne({ username: username }, function (err, account) {
+                return __awaiter(this, void 0, void 0, function* () {
+                    if (err) {
+                        return res.status(500).send({
+                            message: `${err}`,
+                        });
+                    }
+                    if (account) {
+                        return res.status(406).send({
+                            status: 406,
+                            message: "Register failed, this  account is already created.",
+                        });
+                    }
+                    if (!account) {
+                        try {
+                            const new_account = new account_1.default(req.body);
+                            yield new_account.save();
+                            return res.status(200).send({
+                                status: 200,
+                                message: "Register successfully",
+                                new_account,
+                            });
+                        }
+                        catch (err) {
+                            return res.status(500).send({ message: `${err}` });
+                        }
+                    }
+                });
+            });
+        }
+        // try {
+        //   const new_account = new Account(req.body);
+        //   await new_account.save();
+        //   return res.status(200).send({
+        //     success: true,
+        //     message: "Register successfully",
+        //     data: new_account,
+        //   });
+        // } catch (err) {
+        //   return res.status(500).send({
+        //     success: false,
+        //     message: err,
+        //   });
         // }
-        try {
-            const new_account = new account_1.default(req.body);
-            yield new_account.save();
-            return res.status(200).send({
-                success: true,
-                message: "Register successfully",
-                data: new_account,
-            });
-        }
-        catch (err) {
-            return res.status(500).send({
-                success: false,
-                message: err,
-            });
-        }
     }));
     app.post(API_LINK.LINK_AUTHEN_LOGIN, (req, res) => __awaiter(this, void 0, void 0, function* () {
         var username = req.body.username;
