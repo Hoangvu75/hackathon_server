@@ -130,7 +130,7 @@ function setup_post_request() {
         if (username.length < 8 || password.length < 8) {
             res.status(406).send({
                 success: false,
-                message: "Register failed, username and password must be at least 8 characters."
+                message: "Register failed, username and password must be at least 8 characters.",
             });
         }
         else {
@@ -190,10 +190,8 @@ function setup_post_request() {
     }));
     app.post(API_LINK.LINK_AUTHEN_CHANGE_PASSWORD, (req, res) => __awaiter(this, void 0, void 0, function* () {
         var username = req.body.username;
-        var password = req.body.password;
         var newPassword = req.body.newPassword;
-        var retypeNewPassword = req.body.retypeNewPassword;
-        account_1.default.findOne({ username: username, password: password }, function (err, account) {
+        account_1.default.findOne({ username: username }, function (err, account) {
             if (err) {
                 console.log(err);
                 return res.status(500).send({
@@ -204,7 +202,7 @@ function setup_post_request() {
             if (!account) {
                 return res.status(404).send({
                     success: false,
-                    message: "Wrong current password",
+                    message: "Invalid account",
                 });
             }
             if (account) {
@@ -214,14 +212,8 @@ function setup_post_request() {
                         message: "Request failed, password must be at least 8 characters.",
                     });
                 }
-                else if (newPassword !== retypeNewPassword) {
-                    return res.status(406).send({
-                        success: false,
-                        message: "Request failed, please type correct password.",
-                    });
-                }
                 else {
-                    account_1.default.updateOne({ username: username, password: password }, { username: username, password: newPassword }, function (err) {
+                    account_1.default.updateOne({ username: username }, { username: username, password: newPassword }, function (err) {
                         if (err) {
                             return res.status(500).send({
                                 success: false,
