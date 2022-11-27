@@ -183,7 +183,24 @@ function setup_get_request() {
 function setup_post_request() {
     app.post(API_LINK.LINK_CREATE_USER, (req, res) => __awaiter(this, void 0, void 0, function* () {
         try {
-            const my_user = new user_1.default(req.body);
+            const my_user = new user_1.default({
+                username: req.body.username,
+                name: req.body.name,
+                age: req.body.age,
+                location: req.body.location,
+                participated_campaign: [
+                    {
+                        _id: "638259d25ff16a02ee8c61a1",
+                        title: "Công trình thanh niên",
+                        description: "Công trình thanh niên",
+                        start_time: 1669568400000,
+                        image: "https://thieuhoa.thanhhoa.gov.vn/portal/Photos/2022-06-16/ca3d41128764e0dhe%201%20b.jpg",
+                        location: "TP. Thủ Đức, TP. Hồ Chí Minh",
+                        followers: ["follower 1", "follower 2"],
+                        __v: 0,
+                    },
+                ],
+            });
             yield my_user.save();
             return res.status(200).send({
                 success: true,
@@ -359,7 +376,7 @@ function setup_post_request() {
                         });
                     }
                     if (user) {
-                        user_1.default.updateOne({ _id: user_id }, { $push: { participated_campaign: campaign } }, function (err) {
+                        user_1.default.updateOne({ _id: user_id }, { $addToSet: { participated_campaign: campaign } }, function (err) {
                             if (err) {
                                 return res.status(500).send({
                                     success: false,
