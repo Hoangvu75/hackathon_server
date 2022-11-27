@@ -307,9 +307,9 @@ function setup_post_request() {
             }
       
             if (user) {
-              User.update(
+              User.updateOne(
                 { _id: user_id },
-                { $push: { participated_campaign: campaign } },
+                { $addToSet: { participated_campaign: campaign } },
                 function (err: any) {
                   if (err) {
                     return res.status(500).send({
