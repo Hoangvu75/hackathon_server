@@ -359,7 +359,7 @@ function setup_post_request() {
                         });
                     }
                     if (user) {
-                        user_1.default.updateOne({ _id: user_id }, { $addToSet: { participated_campaign: campaign } }, function (err) {
+                        user_1.default.updateOne({ _id: user_id }, { $push: { participated_campaign: campaign } }, function (err) {
                             if (err) {
                                 return res.status(500).send({
                                     success: false,
