@@ -7,6 +7,6 @@ const User = new mongoose_1.Schema({
     age: { type: Number, required: true },
     location: { type: String, required: true },
     image_url: { type: String, default: null },
-    participated_campaign: { type: Array, default: null },
+    participated_campaign: { type: Array, default: null, unique: true },
 });
 exports.default = (0, mongoose_1.model)("user", User);

@@ -307,7 +307,7 @@ function setup_post_request() {
             }
       
             if (user) {
-              User.updateOne(
+              User.update(
                 { _id: user_id },
                 { $push: { participated_campaign: campaign } },
                 function (err: any) {
